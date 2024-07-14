@@ -33,3 +33,4 @@ ORDER BY
 /*
 SQL had highest count in top paying jobs - 8, followed by python - 7, and tableau - 6
 */
+
