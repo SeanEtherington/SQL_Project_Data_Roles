@@ -2,8 +2,12 @@
 
 Exploring the dynamic world of data analysis through SQL, I aimed to refine my skills and uncover insights into top-paid roles and in-demand skills. This journey delves into salary trends, essential skills, and career pathways in today's data analyst job market.
 
+*Note*: This data focuses on roles from the United States in 2023 due to the amount of roles in Australia being limited in this dataset. A future reccomendation would be to explore data job postings based in Australia so that I could gain a better understanding of the local job market and associated skills. 
+
+SQL Queries, Check them our here: [SQL_Project_Data_Job_Analysis](/SQL_Project_Data_Job_Analysis/)
+
 # Background
-I wanted to work on this project for two main reasons. 
+I wanted to work on this project for two main reasons:
 1. Further develop and refine my SQL knowledge and application ability.
 2. Explore the top-paid and in-demand skills for data related roles so that I could be better informed of the job market.
 
@@ -25,7 +29,7 @@ For my deep dive into the data analyst job market, I harnessed the power of seve
 
 # The Analysis
 ### 1. Top Paying Data Analyst Jobs
-To identify the highest-paying roles, I filtered data analyst positions by average yearly salary. This query highlights the high paying opportunities in the field.
+To identify the highest-paying roles, I filtered data analyst positions by the average yearly salary. This query highlights the high paying opportunities in the field.
 ``` sql
 SELECT
     job_id,
@@ -40,7 +44,6 @@ FROM
 LEFT JOIN company_dim cd ON jp.company_id = cd.company_id
 WHERE 
     job_title_short = 'Data Analyst' AND 
-    job_location = 'Anywhere' AND
     salary_year_avg IS NOT NULL
 ORDER BY salary_year_avg DESC  
 LIMIT 10
@@ -49,8 +52,10 @@ LIMIT 10
 - **Diverse Employers:** Companies such as SmartAsset, Meta, and AT&T offer competitive salaries, indicating widespread interest across diverse industries.
 - **Job Title Variety:** The dataset includes a variety of job titles ranging from Data Analyst to Director of Analytics, showcasing diverse roles and specializations within the field of data analytics.
 
+![Top_Paying_jobs](SQL_Project_Data_Job_Analysis/average_salary_by_job_title.png)
+
 ### 2. Skills for Top Paying Jobs
-To understand what skills are required for the top-paying jobs, I joined the job postings with the skills data, which provided insights into what employers value for high-compensation roles.
+To understand what skills are required for the top-paying jobs, I joined the job postings with the skills data, which provided insights into what skills employers value for high-compensation roles.
 
 ``` sql
 WITH top_paying_jobs AS (
@@ -88,11 +93,11 @@ ORDER BY
 
 - **Programming Libraries (Pandas, NumPy):** Specific libraries like Pandas and NumPy for Python are crucial for data manipulation and analysis tasks. Roles that emphasize these skills often come with salaries reflecting their technical complexity and the specialized knowledge required.
 
-An example of a job is the Associate Director - Data Insights position at AT&T, offering an annual salary of $255,829 This role requires expertise in SQL, Python, and R for data manipulation and analysis, along with proficiency in Azure for cloud-based data management. Additionally, skills in Tableau are essential for visualizing insights derived from data analysis.
+An example of a job is the Associate Director - Data Insights position at AT&T, offering an annual salary of $255,829 This role requires expertise in SQL, Python, and R for data manipulation and analysis, along with proficiency in Azure for cloud-based data management. 
 
 ### 3. In-Demand Skills for Data Analysts
 
-This query highlighted the skills that appear most frequently in job postings, guiding attention to areas where there is significant demand.
+This query highlighted the skills that appear most frequently in job postings:
 ``` sql
 SELECT 
     skills,
@@ -105,20 +110,29 @@ GROUP BY skills
 ORDER BY demand_count DESC
 LIMIT 5
 ```
+Heres the breakdown of the most demanded skills for data analysts:
+| Skills   | Demand Count |
+|----------|--------------|
+| sql      | 92628        |
+| excel    | 67031        |
+| python   | 57326        |
+| tableau  | 46554        |
+| power bi | 39468        |
+
 - **SQL:** Tops the list with 92,600 mentions, highlighting its pivotal role in querying databases, data retrieval, and management. Its widespread use underscores its fundamental importance in data analysis and decision-making processes across various industries.
 
-- **Excel:** Follows closely with 67,000 mentions, renowned for its versatility in data organization, basic analysis, and reporting. Excel's widespread adoption among data analysts makes it a foundational tool for handling and interpreting data.
+- **Excel:** Follows closely with 67,000 mentions, renowned for its versatility in data organization, basic analysis, and reporting. 
 
-- **Python:** Ranks third with 57,300 mentions, valued for its extensive libraries and capabilities in data manipulation, statistical analysis, and machine learning. Its flexibility and scalability contribute to its popularity in diverse data analytics tasks.
+- **Python:** Ranks third with 57,300 mentions, valued for its extensive libraries and capabilities in data manipulation, statistical analysis, and machine learning. 
 
-- **Tableau:** Noted in 46,600 postings, essential for its advanced data visualization capabilities. Tableau enables users to create interactive dashboards and visual presentations of complex data, facilitating comprehensive data exploration and presentation.
+- **Tableau:** Noted in 46,600 postings, essential for its advanced data visualization capabilities. 
 
-- **Power BI:** Valued in 39,500 listings, known for its robust business intelligence tools. Power BI empowers users to transform raw data into actionable insights through intuitive dashboards and reports, enhancing data-driven decision-making capabilities.
+- **Power BI:** Valued in 39,500 listings, known for its robust business intelligence tools. 
 
-These skills collectively highlight the diverse technical competencies required in data analyst roles, encompassing data querying, manipulation, visualization, and business intelligence. Each skill plays a crucial role in enabling effective data analysis, interpretation, and communication across organizations.
+These skills collectively highlight the diverse technical competencies required in data analyst roles, encompassing data querying, manipulation, visualization, and business intelligence. 
 
 ### 4. Skills Based on Salary
-Exploring the average salaries associated with different skills revealed which skills are the highest paying in the job market context.
+Exploring the average salaries associated with different skills revealed which skills are the highest paying in the job market context:
 
 ``` sql
 SELECT 
@@ -132,6 +146,17 @@ GROUP BY skills
 ORDER BY avg_salary DESC
 LIMIT 15
 ```
+| Skills    | Average Salary |
+|-----------|-----------------|
+| svn       | 400000          |
+| solidity  | 179000          |
+| couchbase | 160515          |
+| datarobot | 155486          |
+| golang    | 155000          |
+| mxnet     | 149000          |
+| dplyr     | 147633          |
+| vmware    | 147500          |
+| terraform | 146734          |
 - **SVN:** Specialized skills in SVN command high average salaries, reaching up to $400,000 annually, reflecting their niche and high-demand nature in software version control.
 
 - **Solidity:** Essential for blockchain development, Solidity skills offer an average salary of $179,000, indicating its pivotal role in emerging technologies and decentralized applications.
@@ -140,8 +165,9 @@ LIMIT 15
 
 - **DataRobot, Golang, and MXNet:** Skills in DataRobot, Golang (Go programming language), and MXNet are also highly valued, offering competitive salaries and highlighting their significance in advanced data analytics, programming, and machine learning environments.
 
+
 ### 5. Most Optimal Skills to Learn
-Combining insights from demand and salary data, this query aimed to pinpoint skills that are both in high demand and have high salaries, offering a strategic focus for skill development.
+Combining insights from demand and salary data, this query aimed to pinpoint skills that are both in high demand and have high salaries, offering a strategic focus for skill development:
 ``` sql
 SELECT 
     skills_dim.skill_id,
@@ -168,32 +194,53 @@ LIMIT 30;
 
 - **Python:** With 1,840 job postings and an average salary of $101,500, stands out due to its widespread use in data analysis, machine learning, and automation. Its strong demand underscores its versatility across various industries offering competitive pay to skilled professionals.
 
-- **Oracle:** With 332 job postings and an average salary of $100,900, Oracle continues to be a staple in database management systems. The steady demand for Oracle skills reflects its critical role in maintaining large-scale data infrastructures, ensuring stable compensation for experienced professionals.
+- **Oracle:** With 332 job postings and an average salary of $100,900, Oracle continues to be a staple in database management systems. 
 
-- **Azure and AWS:** Azure boasts 319 job postings with an average salary of $105,400, while AWS follows closely with 291 postings averaging $106,400. These figures highlight the robust demand for cloud computing expertise, essential for modern data storage, management, and analysis solutions. Professionals with Azure and AWS skills benefit from high compensation due to their pivotal roles in cloud-based infrastructure.
+- **Azure and AWS:** Azure had 319 job postings with an average salary of $105,400, while AWS follows closely with 291 postings averaging $106,400. These figures highlight the robust demand for cloud computing expertise, essential for modern data storage, management, and analysis solutions. 
+- **Snowflake:** With 241 job postings and an average salary of $111,600, Snowflake represents specialized expertise in cloud-based data warehousing. 
 
-- **Snowflake:** With 241 job postings and an average salary of $111,600, Snowflake represents specialized expertise in cloud-based data warehousing. Its popularity reflects the growing adoption of scalable and efficient data storage solutions, offering lucrative opportunities for professionals specializing in data platforms.
+Below are the top 15 Optimal Skills:
+
+| Skill ID | Skills      | Demand Count | Average Salary |
+|----------|-------------|--------------|----------------|
+| 1        | python      | 1840         | 101512         |
+| 79       | oracle      | 332          | 100964         |
+| 74       | azure       | 319          | 105400         |
+| 76       | aws         | 291          | 106440         |
+| 185      | looker      | 260          | 103855         |
+| 80       | snowflake   | 241          | 111578         |
+| 92       | spark       | 187          | 113002         |
+| 233      | jira        | 145          | 107931         |
+| 97       | hadoop      | 140          | 110888         |
+| 4        | java        | 135          | 100214         |
+| 201      | alteryx     | 124          | 105580         |
+| 2        | nosql       | 108          | 108331         |
+| 75       | databricks  | 102          | 112881         |
+| 187      | qlik        | 100          | 100933         |
+| 204      | visio       | 99           | 101036         |
+
 # What I Learned
 
-Throughout this journey, I've significantly enhanced my SQL skills with advanced techniques:
+Throughout this journey, I've significantly enhanced my SQL skills with advanced techniques. Specifically, I have learnt:
 
-🧩 **Mastering Complex Queries:** I've perfected the art of crafting intricate SQL queries, seamlessly merging tables and employing WITH clauses for sophisticated temporary table operations.
+- **Mastering Complex Queries:** I've greatly improved upon my ability to complete intricate SQL queries, seamlessly merging tables and employing WITH clauses for sophisticated temporary table operations.
 
-📊 **Expert Data Aggregation:** I've become proficient in utilizing GROUP BY and harnessing aggregate functions like COUNT() and AVG() to efficiently summarize and analyze data.
+- **Expert Data Aggregation:** I've become proficient in utilizing GROUP BY and harnessing aggregate functions like COUNT() and AVG() to efficiently summarize and analyze data.
 
-💡 **Analytical Mastery:** I've elevated my ability to solve real-world challenges with SQL, transforming complex questions into actionable insights through strategic query design.
+- **Analytical Mastery:** I've elevated my ability to solve real-world challenges with SQL, transforming complex questions into actionable insights through strategic query design.
 
 
 # Conclusion
 
 In this exploration of the data analyst job market using SQL, several key insights emerged:
 
-- **Top-Paying Jobs:** The top-paying data analyst roles range from $184,000 to $650,000 annually, showcasing significant earning potential across diverse industries like finance, technology, and telecommunications.
+1. **Top-Paying Jobs:** The top-paying data analyst roles range from $184,000 to $650,000 annually, showcasing significant earning potential across diverse industries like finance, technology, and telecommunications.
 
-- **Skills in Demand:** SQL, Python, and cloud computing skills like Azure and AWS are highly sought-after, reflecting their critical role in data manipulation, analysis, and cloud-based data management solutions.
+2. **Skills in Demand:** SQL, Python, and cloud computing skills like Azure and AWS are highly sought-after, reflecting their critical role in data manipulation, analysis, and cloud-based data management solutions.
 
-- **Skills and Salaries:** Specialized skills such as SVN, Solidity, and Couchbase command high average salaries, indicating their niche and in-demand nature in areas like version control, blockchain development, and database management.
+3. **Skills and Salaries:** Specialized skills such as SVN, Solidity, and Couchbase command high average salaries, indicating their niche and in-demand nature in areas like version control, blockchain development, and database management.
 
-- **Strategic Skill Development:** Python, Oracle, Azure, AWS, and Snowflake emerge as optimal skills to learn, offering both high demand and competitive salaries, underscoring their importance in today's data-driven job market.
+4. **Strategic Skill Development:** Python, Oracle, Azure, AWS, and Snowflake emerge as optimal skills to learn, offering both high demand and competitive salaries, underscoring their importance in today's data-driven job market.
 
+### Closing Thoughts
 Through advanced SQL techniques, I've deepened my understanding of job trends, skill requirements, and salary dynamics in the data analyst field, enhancing my ability to navigate and excel in this competitive landscape.
